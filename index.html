@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Design tabs that work. In pure HTML, CSS and JS code. NO MORE Radio button hacks, just pure HTML Tabs !</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+ /* CSS Variables for Theming */
+ :root {
+ --bg-primary: #c9dab9; /* tea-green */
+ --bg-secondary: #ffffff;
+ --bg-secondary-translucent: rgba(255, 255, 255, 0.7);
+ --text-primary: #212121; /* eerie-black */
+ --text-secondary: #495148; /* ebony */
+ --text-title: #598128; /* avocado */
+ --border-color: #b7cca3; /* celadon */
+ --border-color-translucent: rgba(183, 204, 163, 0.5);
+ --code-header-bg: rgba(73, 81, 72, 0.5); /* ebony with alpha */
+ --code-text: #e5e7eb;
+ --button-bg: #b7cca3; /* celadon */
+ --button-hover-bg: #93a88b; /* cambridge-blue */
+ --ring-color: #ffc83d; /* sunglow */
+ }
+
+ html.dark {
+ --bg-primary: #111827; /* gray-900 */
+ --bg-secondary: #1f2937; /* gray-800 */
+ --bg-secondary-translucent: rgba(31, 41, 55, 0.5);
+ --text-primary: #f9fafb; /* gray-100 */
+ --text-secondary: #9ca3af; /* gray-400 */
+ --text-title: #fcd34d; /* amber-300 */
+ --border-color: #374151; /* gray-700 */
+ --border-color-translucent: rgba(55, 65, 81, 0.5);
+ --code-header-bg: rgba(17, 24, 39, 0.7); /* gray-900/70 */
+ --code-text: #d1d5db; /* gray-300 */
+ --button-bg: #374151; /* gray-700 */
+ --button-hover-bg: #4b5563; /* gray-600 */
+ }
+
+ /* Base & Layout Styles */
+ * {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ }
+
+ html {
+ scroll-behavior: smooth;
+ }
+
+ body {
+ font-family: 'Inter', sans-serif;
+ background-color: var(--bg-primary);
+ color: var(--text-primary);
+ transition: background-color 0.3s, color 0.3s;
+ padding: 2rem;
+ }
+
+ @media (max-width: 640px) {
+ body { padding: 1rem; }
+ }
+
+ .container {
+ max-width: 80rem; /* max-w-7xl */
+ margin-left: auto;
+ margin-right: auto;
+ }
+
+ main {
+ display: flex;
+ flex-direction: column;
+ gap: 4rem;
+ }
+
+ header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 1.5rem;
+ }
+
+ h1 {
+ font-size: 2.25rem; /* text-3xl sm:text-4xl */
+ font-weight: 800; /* extrabold */
+ color: var(--text-title);
+ letter-spacing: -0.025em; /* tracking-tight */
+ line-height: 1.2;
+ }
+ @media (min-width: 640px) {
+ h1 { font-size: 2.75rem; }
+ }
+
+ .h1-subtitle {
+ display: block;
+ margin-top: 0.5rem;
+ font-size: 1.25rem;
+ font-weight: 500;
+ color: var(--text-secondary);
+ letter-spacing: normal;
+ }
+ @media (min-width: 640px) {
+ .h1-subtitle { font-size: 1.5rem; }
+ }
+
+ h2 {
+ font-size: 1.875rem; /* text-2xl sm:text-3xl */
+ font-weight: 700;
+ margin-bottom: 0.5rem;
+ color: var(--text-title);
+ }
+  @media (min-width: 640px) {
+ h2 { font-size: 2.25rem; }
+ }
+
+ p {
+ line-height: 1.6;
+ color: var(--text-secondary);
+ }
+
+ footer {
+ text-align: center;
+ margin-top: 4rem;
+ padding-top: 2rem;
+ border-top: 1px solid var(--border-color-translucent);
+ font-size: 0.875rem;
+ color: var(--text-secondary);
+ }
+ 
+ section {
+ padding: 1.5rem;
+ background-color: var(--bg-secondary-translucent);
+ border-radius: 1rem;
+ box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+ border: 1px solid var(--border-color-translucent);
+ backdrop-filter: blur(4px);
+ }
+  @media (min-width: 640px) {
+ section { padding: 2rem; }
+ }
+
+ /* Theme Toggle Button */
+ .theme-toggle {
+ padding: 0.5rem;
+ border-radius: 9999px;
+ background-color: var(--button-bg);
+ color: var(--text-title);
+ border: none;
+ cursor: pointer;
+ transition: background-color 0.2s;
+ }
+ .theme-toggle:hover {
+ background-color: var(--button-hover-bg);
+ }
+ .theme-toggle:focus {
+ outline: 2px solid transparent;
+ outline-offset: 2px;
+ box-shadow: 0 0 0 2px var(--ring-color);
+ }
+ .theme-toggle svg {
+ width: 1.5rem;
+ height: 1.5rem;
+ }
+ .theme-toggle .moon-icon { display: block; }
+ .theme-toggle .sun-icon { display: none; }
+ html.dark .theme-toggle .moon-icon { display: none; }
+ html.dark .theme-toggle .sun-icon { display: block; }
+
+ /* How it works section */
+ section code {
+ font-size: 0.875rem;
+ background-color: var(--button-bg);
+ padding: 0.25rem 0.5rem;
+ border-radius: 0.25rem;
+ }
+ html.dark section code {
+  background-color: var(--bg-primary);
+ }
+ 
+ .how-it-works-grid {
+ margin-top: 2rem;
+ align-items: flex-start;
+ display: grid;
+ grid-template-columns: 1fr;
+ gap: 2rem;
+ }
+ @media (min-width: 1024px) {
+ .how-it-works-grid {
+ grid-template-columns: 1fr 1fr;
+ }
+ }
+
+ /* --- DEMO UI CONTROLS --- */
+ .demo-controls-wrapper {
+ margin-top: 1rem;
+ display: flex;
+ flex-direction: column;
+ gap: 1.5rem;
+ }
+ .demo-controls-wrapper h3 {
+ font-size: 1.25rem;
+ font-weight: 600;
+ color: var(--text-primary);
+ border-bottom: 1px solid var(--border-color);
+ padding-bottom: 0.5rem;
+ margin-bottom: 0rem;
+ }
+
+ /* Search Bar */
+ .search-bar {
+ position: relative;
+ }
+ .search-bar svg {
+ position: absolute;
+ left: 0.75rem;
+ top: 50%;
+ transform: translateY(-50%);
+ width: 1.25rem;
+ height: 1.25rem;
+ color: var(--text-secondary);
+ }
+ .search-bar input {
+ width: 100%;
+ padding: 0.75rem 1rem 0.75rem 2.5rem;
+ border: 1px solid var(--border-color);
+ border-radius: 0.5rem;
+ background-color: var(--bg-primary);
+ color: var(--text-primary);
+ transition: border-color 0.2s, box-shadow 0.2s;
+ }
+ .search-bar input:focus {
+ outline: none;
+ border-color: var(--ring-color);
+ box-shadow: 0 0 0 2px var(--ring-color);
+ }
+ .search-bar input::placeholder {
+ color: var(--text-secondary);
+ }
+
+ /* Task List */
+ .task-list {
+ list-style: none;
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+ }
+ .task-list li {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 1rem;
+ background-color: var(--bg-primary);
+ border-radius: 0.5rem;
+ border: 1px solid var(--border-color);
+ flex-wrap: wrap;
+ gap: 0.5rem;
+ }
+ .task-list label {
+ display: flex;
+ align-items: center;
+ gap: 0.75rem;
+ cursor: pointer;
+ font-size: 0.95rem;
+ }
+ .task-list input[type="checkbox"] {
+ appearance: none;
+ -webkit-appearance: none;
+ width: 1.25rem;
+ height: 1.25rem;
+ border: 2px solid var(--border-color);
+ border-radius: 0.25rem;
+ cursor: pointer;
+ position: relative;
+ transition: background-color 0.2s, border-color 0.2s;
+ flex-shrink: 0;
+ }
+ .task-list input[type="checkbox"]:checked {
+ background-color: var(--ring-color);
+ border-color: var(--ring-color);
+ }
+ .task-list input[type="checkbox"]:checked::after {
+ content: '✔';
+ position: absolute;
+ color: var(--bg-secondary);
+ font-size: 0.8rem;
+ font-weight: bold;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%);
+ }
+ html.dark .task-list input[type="checkbox"]:checked::after {
+ color: var(--bg-primary);
+ }
+ .task-list label span {
+ transition: color 0.2s;
+ }
+ .task-list input[type="checkbox"]:checked + span {
+ text-decoration: line-through;
+ color: var(--text-secondary);
+ }
+ .task-due-date {
+ font-size: 0.8rem;
+ color: var(--text-secondary);
+ background-color: var(--button-bg);
+ padding: 0.25rem 0.5rem;
+ border-radius: 9999px;
+ white-space: nowrap;
+ }
+
+ /* Add Task Form */
+ .add-task-form {
+ display: flex;
+ gap: 0.5rem;
+ }
+ .add-task-form input {
+ flex-grow: 1;
+ padding: 0.75rem 1rem;
+ border: 1px solid var(--border-color);
+ border-radius: 0.5rem;
+ background-color: var(--bg-primary);
+ color: var(--text-primary);
+ transition: border-color 0.2s, box-shadow 0.2s;
+ }
+ .add-task-form input:focus {
+ outline: none;
+ border-color: var(--ring-color);
+ box-shadow: 0 0 0 2px var(--ring-color);
+ }
+ .add-task-form button {
+ padding: 0.75rem 1.25rem;
+ border-radius: 0.5rem;
+ background-color: var(--text-title);
+ color: var(--bg-secondary);
+ border: none;
+ cursor: pointer;
+ font-weight: 500;
+ transition: opacity 0.2s;
+ }
+ .add-task-form button:hover {
+ opacity: 0.85;
+ }
+
+ /* Milestones & Progress */
+ .milestone {
+ display: flex;
+ flex-direction: column;
+ gap: 0.5rem;
+ }
+ .milestone-info {
+ display: flex;
+ justify-content: space-between;
+ font-size: 0.9rem;
+ font-weight: 500;
+ color: var(--text-secondary);
+ }
+ .progress-bar-container {
+ width: 100%;
+ height: 0.75rem;
+ background-color: var(--button-bg);
+ border-radius: 9999px;
+ overflow: hidden;
+ }
+ .progress-bar {
+ height: 100%;
+ background: linear-gradient(to right, #b7cca3, #598128); /* celadon to avocado */
+ border-radius: 9999px;
+ transition: width 0.5s ease-out;
+ }
+ html.dark .progress-bar {
+ background: linear-gradient(to right, #fbbf24, #d97706); /* amber-400 to amber-600 */
+ }
+
+ /* Team Grid */
+ .team-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+ gap: 1rem;
+ }
+ .team-card {
+ background-color: var(--bg-primary);
+ border: 1px solid var(--border-color);
+ border-radius: 0.75rem;
+ padding: 1rem;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ text-align: center;
+ gap: 1rem;
+ }
+ .team-card-avatar {
+ width: 4rem;
+ height: 4rem;
+ border-radius: 9999px;
+ background: linear-gradient(135deg, var(--text-title), var(--ring-color));
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 1.5rem;
+ font-weight: 600;
+ color: var(--bg-secondary);
+ }
+ html.dark .team-card-avatar {
+ color: var(--bg-primary);
+ }
+ .team-card-info h4 {
+ font-size: 1.1rem;
+ font-weight: 600;
+ color: var(--text-primary);
+ margin: 0;
+ }
+ .team-card-info p {
+ font-size: 0.9rem;
+ color: var(--text-secondary);
+ line-height: 1.2;
+ }
+ .team-card button {
+ width: 100%;
+ padding: 0.6rem 1rem;
+ border-radius: 0.5rem;
+ background-color: var(--button-bg);
+ color: var(--text-primary);
+ border: 1px solid var(--border-color);
+ cursor: pointer;
+ font-weight: 500;
+ transition: background-color 0.2s, border-color 0.2s;
+ }
+ .team-card button:hover {
+ background-color: var(--button-hover-bg);
+ border-color: var(--text-secondary);
+ }
+
+ /* --- START: TAB COMPONENT STYLES --- */
+ /* Copy this entire block to use the tabs in your project. */
+ 
+ @keyframes fadeIn {
+ from { opacity: 0; transform: translateY(0.625rem); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+ 
+ .nested-tabs {
+ margin-top: 1.5rem;
+ }
+ 
+ .tab-group {
+ background-color: #93a88b; /* cambridge-blue */
+ padding: 0.8rem 0.3rem 0rem 0.5rem;
+ border-bottom: 0.25rem solid #495148; /* ebony */
+ display: flex;
+ align-items: flex-end;
+ overflow-x: auto;
+ border-radius: 0.75rem 0.75rem 0 0;
+ }
+ 
+ .tab-label-base {
+ cursor: pointer;
+ padding: 0.75rem 1.25rem;
+ font-weight: 500;
+ transition: all 0.2s ease-in-out;
+ position: relative;
+ user-select: none;
+ white-space: nowrap;
+ text-align: center;
+ border-radius: 0.9rem 1rem 0.2rem 0.1rem;
+ margin-right: 0.33rem;
+ transform: translateY(0);
+ border: none;
+ font-family: inherit;
+ background: transparent;
+ }
+ .tab-group .tab-label-base:last-child {
+ margin-right: 0;
+ }
+
+ .tab-content {
+ display: none;
+ animation: fadeIn 0.3s ease-out;
+ min-height: 100px;
+ padding: 1rem;
+ }
+ .tab-content.active {
+ display: block;
+ }
+ .nested-tabs .tab-content {
+ min-height: 60px;
+ padding-top: 1.5rem;
+ padding-left: 0;
+ padding-right: 0;
+ padding-bottom: 0;
+ }
+ 
+ /* Light Mode Styles (Default) */
+ .tab-group .tab-label-base {
+ background: linear-gradient(180deg, #c9dab9 0%, #b7cca3 100%);
+ box-shadow: 0 0 0 0.25rem rgba(30, 30, 30, 0.1), 0 0.25rem 0.5rem rgba(0,0,0,0.1), 0 0.125rem 0.25rem rgba(0,0,0,0.05);
+ color: var(--text-primary);
+ }
+ .tab-group .tab-label-base:hover {
+ background: linear-gradient(180deg, #e4eedb 0%, #c9d8bd 100%);
+ box-shadow: 0 0.375rem 0.75rem rgba(0,0,0,0.15), 0 0.1875rem 0.375rem rgba(0,0,0,0.08);
+ color: #007f80; /* teal */
+ transform: translateY(-0.2rem);
+ }
+ .tab-group .tab-label-base:focus-visible {
+ outline: none;
+ background: linear-gradient(180deg, #e4eedb 0%, #c9d8bd 100%);
+ color: #007f80; /* teal */
+ box-shadow: 0 0 0 0.1875rem rgba(128, 128, 128, 0.4), 0 -0.125rem 0.3125rem rgba(0,0,0,0.1), 0 0.125rem 0.3125rem rgba(0,0,0,0.1);
+ transform: translateY(-0.2rem);
+ }
+ .tab-label-base.active {
+ background: linear-gradient(180deg, rgba(255,255,255,1) 0%, #c9dab9 100%);
+ color: var(--text-title);
+ box-shadow: 0 0 0.3rem 0.8rem rgba(70, 50, 50, 0.33), 0 -0.1875rem 0.4375rem rgba(0,0,0,0.15), 0 0.1875rem 0.4375rem rgba(0,0,0,0.15);
+ z-index: 10;
+ transform: translateY(-0.4rem);
+ }
+
+ .tab-group .tab-label-base::after {
+ content: '';
+ position: absolute;
+ left: 0;
+ bottom: -0.455rem;
+ height: 0.375rem;
+ width: 100%;
+ background-color: #93a88b; /* cambridge-blue */
+ transform: scaleX(0);
+ transform-origin: bottom center;
+ transition: all 0.2s ease-in-out;
+ opacity: 0;
+ }
+ .tab-group .tab-label-base:hover::after {
+ background-color: #ffc83d; /* sunglow */
+ opacity: 0.5;
+ transform: scaleX(0.95);
+ }
+  .tab-group .tab-label-base:focus-visible::after {
+  background: linear-gradient(to right, #007f80, #cc007b); /* teal to magenta-dye */
+  opacity: 1;
+  transform: scaleX(1);
+  height: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 127, 128, 0.4), 0 0 0.625rem rgba(204, 0, 123, 0.4);
+ }
+ .tab-label-base.active::after {
+ opacity: 1;
+ transform: scaleX(1);
+ background: linear-gradient(to right, #598128, #007f80); /* avocado to teal */
+ height: 0.33rem;
+ box-shadow: 0 0.25rem 0.5rem rgba(89, 129, 40, 0.4), 0 0 0.625rem rgba(0, 127, 128, 0.4);
+ }
+ 
+ /* Dark Mode Tab Styles */
+ html.dark .tab-group {
+ background-color: #4c0519; /* A custom very dark rose */
+ border-bottom-color: #4c0519;
+ box-shadow: 0 0.1875rem 0.375rem rgba(255,255,255,0.05);
+ }
+ html.dark .tab-group .tab-label-base {
+ background: linear-gradient(180deg, rgba(255, 236, 161, 1) 0%, rgba(255, 141, 110, 0.95) 100%);
+ box-shadow: 0 0 0 0.0625rem rgba(255, 255, 255, 0.1), 0 0.25rem 0.5rem rgba(255,255,255,0.08), 0 0.125rem 0.25rem rgba(255,255,255,0.05);
+ color: #400000;
+ }
+ html.dark .tab-group .tab-label-base:hover {
+ background: linear-gradient(180deg, rgba(255, 200, 100, 1) 0%, rgba(255, 100, 70, 0.95) 100%);
+ box-shadow: 0 0.375rem 0.75rem rgba(255,255,255,0.1), 0 0.1875rem 0.375rem rgba(255,255,255,0.08);
+ color: #7B1FA2;
+ transform: translateY(-0.25rem);
+ }
+ html.dark .tab-group .tab-label-base:focus-visible {
+ outline: none;
+ background: linear-gradient(180deg, rgba(255, 200, 100, 1) 0%, rgba(255, 100, 70, 0.95) 100%);
+ color: #7B1FA2;
+ box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.2), 0 -0.125rem 0.3125rem rgba(255,255,255,0.05), 0 0.125rem 0.3125rem rgba(255,255,255,0.05);
+ transform: translateY(-0.1875rem);
+ }
+ html.dark .tab-label-base.active {
+ background: linear-gradient(180deg, rgb(255, 240, 170) 0%, rgb(255, 160, 80) 100%);
+ color: #036635;
+ box-shadow: 0 0 0.9375rem 0.3125rem rgba(255, 255, 255, 0.4), 0 -0.1875rem 0.4375rem rgba(255,255,255,0.08), 0 0.1875rem 0.4375rem rgba(255,255,255,0.08);
+ transform: translateY(-0.4rem);
+ }
+ html.dark .tab-label-base.active::after {
+ background: linear-gradient(to right, #34D399, #60A5FA);
+ height: 0.5rem;
+ box-shadow: 0 0.25rem 0.5rem rgba(52, 211, 153, 0.4), 0 0 0.625rem rgba(96, 165, 250, 0.4);
+ opacity: 1;
+ transform: scaleX(1);
+ }
+ html.dark .tab-group .tab-label-base:hover::after {
+ background-color: #FCD34D;
+ opacity: 0.5;
+ }
+ html.dark .tab-group .tab-label-base:focus-visible::after {
+ background: linear-gradient(to right, #C084FC, #F472B6);
+ opacity: 1;
+ transform: scaleX(1);
+ height: 0.5rem;
+ box-shadow: 0 0.25rem 0.5rem rgba(192, 132, 252, 0.4), 0 0 0.625rem rgba(244, 114, 182, 0.4);
+ }
+
+ /* --- END: TAB COMPONENT STYLES --- */
+
+ /* Custom scrollbar hiding */
+ .no-scrollbar::-webkit-scrollbar { display: none; }
+ .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+ /* --- Large Launch Editor Button --- */
+ .launch-editor-btn-large {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.75rem;
+ width: 100%;
+ max-width: 700px; /* Match code preview width */
+ margin: 1.5rem auto 0 auto;
+ padding: 1rem 1.5rem;
+ font-size: 1.1rem;
+ font-weight: 600;
+ color: var(--bg-secondary);
+ background-color: var(--text-title);
+ border: none;
+ border-radius: 0.75rem;
+ cursor: pointer;
+ transition: all 0.2s ease-in-out;
+ box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+ }
+ .launch-editor-btn-large:hover {
+ opacity: 0.9;
+ transform: translateY(-2px);
+ box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+ }
+ .launch-editor-btn-large:focus-visible {
+ outline: 2px solid transparent;
+ outline-offset: 2px;
+ box-shadow: 0 0 0 3px var(--ring-color);
+ }
+ .launch-editor-btn-large svg {
+ width: 3.125rem;
+ height: 3.125rem;
+ }
+ html.dark .launch-editor-btn-large {
+ color: var(--bg-primary);
+ }
+ 
+ /* --- Code Editor Dialog Styles --- */
+ dialog.code-dialog {
+ padding: 0;
+ border: none;
+ background: transparent;
+ max-width: 100vw;
+ max-height: 100vh;
+ overflow: visible;
+ }
+
+ dialog.code-dialog[open] {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
+
+ dialog.code-dialog::backdrop {
+ background-color: rgba(0, 0, 0, 0.6);
+ backdrop-filter: blur(8px);
+ }
+
+ .code-dialog-content {
+ position: relative;
+ width: 95vw;
+ height: 95vh;
+ background-color: var(--bg-secondary);
+ border-radius: 1rem;
+ box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+ border: 1px solid var(--border-color);
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+ }
+
+ dialog.code-dialog[open] .code-dialog-content {
+  animation: dialog-fade-in 0.3s ease-out;
+ }
+
+ @keyframes dialog-fade-in {
+ from { opacity: 0; transform: scale(0.95); }
+ to { opacity: 1; transform: scale(1); }
+ }
+
+ .code-dialog-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 1rem 1.5rem;
+ border-bottom: 1px solid var(--border-color);
+ flex-shrink: 0;
+ }
+ .code-dialog-header h2 {
+ font-size: 1.5rem; /* text-xl */
+ margin: 0;
+ }
+
+ .code-dialog-close {
+ font-size: 2rem;
+ font-weight: 300;
+ color: var(--text-secondary);
+ background: none;
+ border: none;
+ cursor: pointer;
+ line-height: 1;
+ padding: 0 0.5rem;
+ transition: color 0.2s;
+ }
+ .code-dialog-close:hover {
+ color: var(--text-primary);
+ }
+
+ .code-dialog-body {
+ flex-grow: 1;
+ display: flex;
+ overflow: hidden;
+ }
+
+ .editor-pane, .preview-pane {
+ display: flex;
+ flex-direction: column;
+ width: 50%;
+ height: 100%;
+ transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+ flex-shrink: 0;
+ }
+ 
+ .code-dialog-body.editor-expanded .editor-pane {
+ width: 75%;
+ }
+
+ .code-dialog-body.editor-expanded .preview-pane {
+ width: 25%;
+ }
+
+ .editor-pane {
+ border-right: 1px solid var(--border-color);
+ }
+
+ .pane-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 0.75rem 1.5rem;
+ background-color: var(--bg-primary);
+ border-bottom: 1px solid var(--border-color);
+ flex-shrink: 0;
+ }
+ .pane-header h3 {
+ font-size: 1rem;
+ font-weight: 600;
+ color: var(--text-primary);
+ }
+
+ .pane-controls {
+ display: flex;
+ align-items: center;
+ gap: 0.75rem;
+ }
+
+ .toggle-view-btn {
+ padding: 0.5rem;
+ border-radius: 0.5rem;
+ background-color: var(--button-bg);
+ color: var(--text-primary);
+ border: 1px solid transparent;
+ cursor: pointer;
+ font-weight: 500;
+ transition: background-color 0.2s, box-shadow 0.2s;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ line-height: 1;
+ }
+ .toggle-view-btn:hover {
+ background-color: var(--button-hover-bg);
+ }
+ .toggle-view-btn:focus-visible {
+ outline: 2px solid transparent;
+ outline-offset: 2px;
+ box-shadow: 0 0 0 2px var(--ring-color);
+ }
+ .toggle-view-btn svg {
+ width: 3rem;
+ height: 3rem;
+ }
+ .toggle-view-btn .collapse-icon { display: none; }
+ .toggle-view-btn .expand-icon { display: block; }
+ .code-dialog-body.editor-expanded .toggle-view-btn .collapse-icon { display: block; }
+ .code-dialog-body.editor-expanded .toggle-view-btn .expand-icon { display: none; }
+
+ .run-btn {
+ padding: 0.5rem 1rem;
+ border-radius: 0.5rem;
+ background-color: var(--text-title);
+ color: var(--bg-secondary);
+ border: none;
+ cursor: pointer;
+ font-weight: 500;
+ transition: opacity 0.2s;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ }
+ .run-btn:hover {
+ opacity: 0.85;
+ }
+ html.dark .run-btn {
+  color: var(--bg-primary);
+ }
+
+ #code-editor-textarea {
+ flex-grow: 1;
+ border: none;
+ padding: 1rem;
+ font-family: 'Fira Code', 'Courier New', monospace;
+ font-size: 0.9rem;
+ line-height: 1.6;
+ resize: none;
+ outline: none;
+ color: #33e033;
+ caret-color: #f3e033;
+ background-image: linear-gradient(to bottom, #150101bf 0%, #150101bf 100%), radial-gradient(circle farthest-corner at 50% 40%, #712a5cff 0.1%, #28192eff 80%);
+ }
+
+ #preview-iframe {
+ flex-grow: 1;
+ border: none;
+ width: 100%;
+ height: 100%;
+ background-color: #fff; /* White background for preview */
+ }
+
+ /* --- Interactive Code Preview --- */
+ .interactive-code-container {
+ margin-top: 2rem;
+ padding: 2rem;
+ background-color: var(--bg-primary);
+ border: 1px dashed var(--border-color);
+ border-radius: 1rem;
+ }
+ .interactive-code-container p {
+ max-width: 650px;
+ margin: 0 auto 1.5rem auto;
+ text-align: center;
+ }
+ .code-preview-wrapper {
+ background-color: #0D0D0D;
+ border-radius: 0.75rem;
+ overflow: hidden;
+ border: 1px solid var(--border-color);
+ max-width: 700px;
+ margin: auto;
+ box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+ }
+ .code-preview-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 0.5rem 0.5rem 0.5rem 1rem;
+ background-color: rgba(0,0,0,0.2);
+ border-bottom: 1px solid var(--border-color-translucent);
+ }
+ .code-preview-header > span {
+ font-size: 0.8rem;
+ font-family: 'Fira Code', monospace;
+ color: #9ca3af;
+ }
+ .code-preview-controls {
+ display: flex;
+ gap: 0.5rem;
+ }
+ .run-btn-small, .launch-editor-btn-small {
+ display: inline-flex;
+ align-items: center;
+ gap: 0.5rem;
+ padding: 0.4rem 0.8rem;
+ border-radius: 0.5rem;
+ background-color: var(--button-bg);
+ color: var(--text-primary);
+ border: 1px solid var(--border-color);
+ cursor: pointer;
+ font-weight: 500;
+ font-size: 0.8rem;
+ transition: background-color 0.2s, box-shadow 0.2s;
+ }
+ .run-btn-small:hover, .launch-editor-btn-small:hover {
+ background-color: var(--button-hover-bg);
+ box-shadow: 0 0 0 2px var(--ring-color);
+ }
+ .run-btn-small svg, .launch-editor-btn-small svg {
+ width: 1rem;
+ height: 1rem;
+ }
+ #inline-code-snippet {
+ width: 100%;
+ border: none;
+ padding: 1rem;
+ font-family: 'Fira Code', 'Courier New', monospace;
+ font-size: 0.85rem;
+ line-height: 1.6;
+ resize: none;
+ outline: none;
+ -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+ mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+ color: #33e033;
+ caret-color: #f3e033;
+ background-image: linear-gradient(to bottom, #150101bf 0%, #150101bf 100%), radial-gradient(circle farthest-corner at 50% 40%, #712a5cff 0.1%, #28192eff 80%);
+ }
+  </style>
+</head>
+<body>
+  <div class="container">
+ <header>
+ <h1>
+ Pure HTML, CSS &amp; JS Tabs
+ <span class="h1-subtitle">No More Radio Button Hacks.</span>
+ </h1>
+ <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle dark mode">
+ <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25c0 5.385 4.365 9.75 9.75 9.75 2.833 0 5.398-1.21 7.252-3.248Z" />
+ </svg>
+ <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-6.364-.386 1.591-1.591M3 12h2.25m.386-6.364 1.591 1.591M12 12a2.25 2.25 0 0 0-2.25 2.25 2.25 2.25 0 0 0 2.25 2.25c.398 0 .779-.104 1.11-.293M12 12a2.25 2.25 0 0 1-2.25-2.25 2.25 2.25 0 0 1 2.25-2.25c.398 0 .779-.104 1.11.293M12 12a2.25 2.25 0 0 0 2.25-2.25 2.25 2.25 0 0 0-2.25-2.25M12 12a2.25 2.25 0 0 1 2.25 2.25 2.25 2.25 0 0 1-2.25-2.25" />
+ </svg>
+ </button>
+ </header>
+
+ <main>
+ <section>
+ <h2>Live Demonstration</h2>
+ <p style="margin-bottom: 1.5rem;">Interact with the tabs below—you can also use arrow keys to navigate them. The core tab switching logic is now handled by JavaScript, allowing for a more robust and extensible component.</p>
+ 
+ <div class="tabs-container">
+ <!-- Tab Buttons Container with ARIA roles for accessibility -->
+ <div class="tab-group no-scrollbar" role="tablist" aria-label="Project Management Tabs">
+  <button id="label-tab-1" class="tab-label-base active" role="tab" aria-controls="content-1" aria-selected="true" tabindex="0">Projects</button>
+  <button id="label-tab-2" class="tab-label-base" role="tab" aria-controls="content-2" aria-selected="false" tabindex="-1">Tasks</button>
+  <button id="label-tab-3" class="tab-label-base" role="tab" aria-controls="content-3" aria-selected="false" tabindex="-1">Milestones</button>
+  <button id="label-tab-4" class="tab-label-base" role="tab" aria-controls="content-4" aria-selected="false" tabindex="-1">Team</button>
+ </div>
+ 
+ <!-- Tab Content Container with ARIA roles for accessibility -->
+ <div class="tab-content-container">
+  <div id="content-1" class="tab-content active" role="tabpanel" aria-labelledby="label-tab-1">
+  <p>Overview of all active projects. Use the search below to filter projects.</p>
+  <div class="demo-controls-wrapper" style="margin-top: 1rem; margin-bottom: 1.5rem; gap: 0;">
+ <div class="search-bar">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd"></path></svg>
+ <input type="text" placeholder="Search projects..." aria-label="Search projects">
+ </div>
+  </div>
+  
+  <div class="tabs-container nested-tabs">
+ <!-- NESTED Tab Buttons Container -->
+ <div class="tab-group no-scrollbar" role="tablist" aria-label="Sub-Project Tabs">
+ <button id="label-nested-tab-1" class="tab-label-base active" role="tab" aria-controls="nested-content-1" aria-selected="true" tabindex="0">Sub-Project Alpha</button>
+ <button id="label-nested-tab-2" class="tab-label-base" role="tab" aria-controls="nested-content-2" aria-selected="false" tabindex="-1">Sub-Project Beta</button>
+ </div>
+  
+ <!-- NESTED Tab Content Container -->
+ <div class="tab-content-container">
+ <div id="nested-content-1" class="tab-content active" role="tabpanel" aria-labelledby="label-nested-tab-1"><p>Details for Sub-Project Alpha, including its specific tasks and resource allocation.</p></div>
+ <div id="nested-content-2" class="tab-content" role="tabpanel" aria-labelledby="label-nested-tab-2"><p>Details for Sub-Project Beta, focusing on its timeline and deliverables.</p></div>
+ </div>
+  </div>
+  </div>
+  <div id="content-2" class="tab-content" role="tabpanel" aria-labelledby="label-tab-2">
+  <div class="demo-controls-wrapper">
+ <h3>Pending Tasks</h3>
+ <ul class="task-list">
+ <li>
+  <label><input type="checkbox" checked aria-describedby="task-due-date-1"><span>Finalize UI mockups for Q3 launch</span></label>
+  <span class="task-due-date" id="task-due-date-1">Due: Tomorrow</span>
+ </li>
+ <li>
+  <label><input type="checkbox" aria-describedby="task-due-date-2"><span>Develop new authentication flow</span></label>
+  <span class="task-due-date" id="task-due-date-2">Due: Oct 28</span>
+ </li>
+ <li>
+  <label><input type="checkbox" aria-describedby="task-due-date-3"><span>Deploy staging server updates</span></label>
+  <span class="task-due-date" id="task-due-date-3">Due: Nov 2</span>
+ </li>
+ </ul>
+ <form class="add-task-form" id="add-task-form-el">
+ <input type="text" placeholder="Add a new task..." aria-label="Add a new task">
+ <button type="submit">Add Task</button>
+ </form>
+  </div>
+  </div>
+  <div id="content-3" class="tab-content" role="tabpanel" aria-labelledby="label-tab-3">
+  <div class="demo-controls-wrapper">
+ <h3>Project Timelines</h3>
+ <div class="milestone">
+ <div class="milestone-info">
+  <span>Phase 1: Research &amp; Discovery</span>
+  <span>100%</span>
+ </div>
+ <div class="progress-bar-container"><div class="progress-bar" style="width: 100%;"></div></div>
+ </div>
+ <div class="milestone">
+ <div class="milestone-info">
+  <span>Phase 2: UI/UX Design</span>
+  <span>75%</span>
+ </div>
+ <div class="progress-bar-container"><div class="progress-bar" style="width: 75%;"></div></div>
+ </div>
+ <div class="milestone">
+ <div class="milestone-info">
+  <span>Phase 3: Development</span>
+  <span>40%</span>
+ </div>
+ <div class="progress-bar-container"><div class="progress-bar" style="width: 40%;"></div></div>
+ </div>
+  </div>
+  </div>
+  <div id="content-4" class="tab-content" role="tabpanel" aria-labelledby="label-tab-4">
+  <div class="demo-controls-wrapper">
+ <div class="team-grid">
+ <div class="team-card">
+  <div class="team-card-avatar"><span>AV</span></div>
+  <div class="team-card-info">
+  <h4>Alex Vance</h4>
+  <p>Lead Developer</p>
+  </div>
+  <button>View Profile</button>
+ </div>
+ <div class="team-card">
+  <div class="team-card-avatar"><span>BS</span></div>
+  <div class="team-card-info">
+  <h4>Brianna Shaw</h4>
+  <p>UX/UI Designer</p>
+  </div>
+  <button>View Profile</button>
+ </div>
+ <div class="team-card">
+  <div class="team-card-avatar"><span>CJ</span></div>
+  <div class="team-card-info">
+  <h4>Carlos Jimenez</h4>
+  <p>Project Manager</p>
+  </div>
+  <button>View Profile</button>
+ </div>
+ </div>
+  </div>
+  </div>
+ </div>
+ </div>
+ </section>
+
+ <section>
+ <h2>How It Works</h2>
+ <p>This component has been engineered with a JavaScript-driven approach to create a modern, accessible, and extensible tab system. Unlike older methods that rely on radio-button hacks, our approach uses semantic HTML and is designed to work within modern CSS layouts like Flexbox or Grid. This model offers significant advantages:</p>
+ <ul style="list-style: none; padding-left: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: 0.75rem;">
+ <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><strong style="color: var(--text-title); font-size: 1.2rem; line-height: 1;">&bull;</strong><span><strong>Superior Accessibility:</strong> Implements full keyboard navigation (arrow keys, Home/End) and ARIA roles for screen reader compatibility.</span></li>
+ <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><strong style="color: var(--text-title); font-size: 1.2rem; line-height: 1;">&bull;</strong><span><strong>Semantic &amp; Modern Structure:</strong> Uses proper <code>&lt;button&gt;</code> and <code>&lt;div&gt;</code> elements, designed for modern CSS layouts like Grid. This avoids legacy radio button hacks for cleaner, more maintainable code.</span></li>
+ <li style="display: flex; align-items: flex-start; gap: 0.5rem;"><strong style="color: var(--text-title); font-size: 1.2rem; line-height: 1;">&bull;</strong><span><strong>Future-Ready:</strong> The structure is easily expandable with features like lazy-loading content.</span></li>
+ </ul>
+ <p>The script manages the component's state by toggling an <code>.active</code> class for styling, while also updating key ARIA attributes (like <code>aria-selected</code>) and the <code>tabindex</code> to ensure the component is fully accessible. CSS handles all visual styling, and the only trade-off is that JavaScript is required, which is a standard for modern web applications.</p>
+ 
+ <div class="interactive-code-container">
+ <p>Want to see the code in action? You can review the example below or open the full interactive editor to modify the code and see your changes instantly.</p>
+ <div class="code-preview-wrapper">
+  <div class="code-preview-header">
+  <span>Example Code (HTML, CSS, JS)</span>
+  <div class="code-preview-controls">
+ <button id="launch-editor-btn-small" class="launch-editor-btn-small" title="Open in full editor">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 496" aria-hidden="true">
+ <path fill="#b761c6" d="M496 321c0 97-78 175-175 175H175C78 496 0 418 0 321V175C0 78 78 0 175 0h146c97 0 175 78 175 175v146z"/>
+ <path fill="#aa53bc" d="M0 175C0 78 78 0 175 0h146c97 0 175 78 175 175v146c0 97-78 175-175 175"/>
+ <g fill="#9c44b2">
+  <path d="M321 0c97 0 175 78 175 175v146c0 97-78 175-175 175M189 190h17c7 0 12-6 12-12s-4-12-12-12h-46c-3 0-6 1-8 3s-3 5-3 8v46c0 7 5 12 12 12s12-5 12-12v-18 1l40 40c2 2 5 3 8 3s5-1 8-3c5-5 5-12 0-17l-40-39zm-17 0h1-1z"/>
+  <path d="M335 295c-6 0-12 6-12 12v19-1l-40-40c-5-5-12-5-17 0s-4 12 0 17l40 40h1-18c-7 0-12 5-12 12s5 12 12 12h46c3 0 7-2 8-4 3-2 3-4 3-8v-46c1-8-4-13-11-13zm-12 47s0-1 0 0l1-1v1h-1zm-110-57-40 40v1-19c0-6-5-12-12-12s-12 6-12 12v47c0 3 1 6 3 8s5 3 8 3h46c7 0 12-6 12-12s-5-12-12-12h-18 1l40-40c5-5 5-12 0-17-4-4-12-4-16 1zm-41 57v-1 1h1-1zm103-92c3 0 6-1 8-4l40-40v18c0 6 5 12 12 12s12-6 12-12v-46c0-4-1-7-3-8-2-3-5-4-8-4h-46c-7 0-12 6-12 12s5 12 12 12h18-1l-40 40c-5 5-5 12 0 17 3 2 5 3 8 3zm49-60h-1 1z"/>
+ </g>
+ <path fill="#fff" d="M189 173c0-1 0-1 0 0h17c7 0 12-6 12-12s-4-12-12-12h-46c-3 0-6 1-8 3s-3 5-3 8v46c0 7 5 12 12 12s12-5 12-12v-18 1l40 40c2 2 5 3 8 3s5-1 8-3c5-5 5-12 0-17l-40-39zm-17 0v-1h1l-1 1zm163 105c-6 0-12 5-12 12v18-1l-40-40c-5-5-12-5-17 0s-4 12 0 17l40 40h1-18c-7 0-12 6-12 12s5 12 12 12h46c3 0 7-2 8-3 3-3 3-5 3-8v-47c1-8-4-12-11-12zm-12 46 1-1v1h-1zm-110-57-40 40v1-18c0-7-5-12-12-12s-12 5-12 12v46c0 3 1 6 3 8s5 3 8 3h46c7 0 12-5 12-12s-5-12-12-12h-18 1l40-40c5-5 5-12 0-17-4-4-12-4-16 1zm-41 57v-1 1h1-1zm103-91c3 0 6-1 8-3l40-40v-1 18c0 7 5 12 12 12s12-5 12-12v-46c0-3-1-7-3-8-2-3-5-3-8-3h-46c-7 0-12 5-12 12s5 12 12 12h18-1l-40 40c-5 4-5 12 0 16 3 1 5 3 8 3zm49-61v1-1h-1 1z"/>
+ </svg>
+ <span>Expand</span>
+ </button>
+  </div>
+  </div>
+  <textarea id="inline-code-snippet" readonly rows="12" spellcheck="false" aria-label="Code Snippet Preview"></textarea>
+ </div>
+ <button id="launch-editor-btn-large" class="launch-editor-btn-large">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24" aria-hidden="true">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 12"></path>
+  </svg>
+  <span>Launch Live Preview Code + Editor</span>
+ </button>
+ </div>
+ </section>
+ 
+ <section>
+ <h2>Technical Documentation: ARIA &amp; Accessibility</h2>
+ <p>This tab component is not just about looks; it's built from the ground up with accessibility as a top priority. We intentionally use semantic HTML and avoid obsolete "radio button hacks," allowing the component to integrate cleanly into modern CSS layouts like Grid or Flexbox. This modern foundation allows us to fully adhere to the <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabpanel/" target="_blank" rel="noopener noreferrer" style="color: var(--text-title); text-decoration: underline; font-weight: 500;">WAI-ARIA Authoring Practices Guide (APG) for Tabs</a> to ensure the component is robust, understandable, and fully operable for all users, including those who rely on assistive technologies like screen readers or keyboard-only navigation.</p>
+ <p style="margin-top: 1rem;">The implementation correctly utilizes the following ARIA roles and properties to create a fully accessible tabbed interface:</p>
+ 
+ <div class="how-it-works-grid">
+ <div>
+  <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">Core Roles &amp; Relationships</h3>
+  <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 1.25rem;">
+  <li>
+ <code style="font-size: 1rem;">role="tablist"</code>
+ <p style="margin-top: 0.25rem;">Applied to the button container, this role defines the element as a list of tabs, allowing screen readers to announce it as a single, cohesive widget.</p>
+  </li>
+  <li>
+ <code style="font-size: 1rem;">role="tab"</code>
+ <p style="margin-top: 0.25rem;">Identifies each button as an individual tab control. This role is essential for assistive technology to understand its function.</p>
+  </li>
+  <li>
+ <code style="font-size: 1rem;">role="tabpanel"</code>
+ <p style="margin-top: 0.25rem;">Identifies each content area that is associated with a tab, clearly defining its purpose as a panel of information.</p>
+  </li>
+  <li>
+ <code style="font-size: 1rem;">aria-controls</code> &amp; <code style="font-size: 1rem;">aria-labelledby</code>
+ <p style="margin-top: 0.25rem;">These properties create an explicit, two-way link: <code>aria-controls</code> on a tab points to its panel's ID, while <code>aria-labelledby</code> on a panel points to its controlling tab's ID. This robust connection is crucial for assistive technologies to announce the relationship between the active tab and its visible content panel.</p>
+  </li>
+  </ul>
+ </div>
+ <div>
+  <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-primary); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">State Management &amp; Keyboard Interaction</h3>
+  <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 1.25rem;">
+  <li>
+ <code style="font-size: 1rem;">aria-selected="true | false"</code>
+ <p style="margin-top: 0.25rem;">Dynamically updated by the script, this state tells assistive technologies exactly which tab is currently active. Announcing "Tab, [Name], selected" provides clear feedback to the user.</p>
+  </li>
+  <li>
+ <strong style="color: var(--text-primary);">Roving <code>tabindex</code></strong>
+ <p style="margin-top: 0.25rem;">To create an intuitive keyboard experience, only the active tab has <code>tabindex="0"</code>. All other tabs are set to <code>tabindex="-1"</code>, removing them from the standard tab sequence. This prevents users from having to tediously tab through every single tab label.</p>
+  </li>
+  <li>
+ <strong style="color: var(--text-primary);">Full Keyboard Support</strong>
+ <p style="margin-top: 0.25rem;">Once the <code>tablist</code> has focus, users can navigate with ease:
+ <br> &bull; <strong>Right/Left Arrows:</strong> Cycle between tabs.
+ <br> &bull; <strong>Home:</strong> Jump to the first tab.
+ <br> &bull; <strong>End:</strong> Jump to the last tab.
+ </p>
+  </li>
+  </ul>
+ </div>
+ </div>
+ <p style="margin-top: 2rem; border-top: 1px solid var(--border-color-translucent); padding-top: 1.5rem;">In conclusion, this implementation does not just simulate the appearance of tabs; it correctly implements the full ARIA design pattern, resulting in a component that is both functional and universally accessible.</p>
+ </section>
+ </main>
+
+ <footer>
+ <p>A modern, standalone implementation of accessible, JavaScript-driven tabs.</p>
+ </footer>
+  </div>
+
+  <dialog id="code-editor-dialog" class="code-dialog" aria-modal="true" aria-labelledby="dialog-title">
+ <div class="code-dialog-content">
+ <header class="code-dialog-header">
+ <h2 id="dialog-title" class="h2">Live Code Editor & Preview</h2>
+ <button id="close-dialog-btn" class="code-dialog-close" aria-label="Close dialog">&times;</button>
+ </header>
+ <div class="code-dialog-body">
+ <div class="editor-pane">
+ <div class="pane-header">
+  <h3>HTML, CSS & JS Code</h3>
+  <div class="pane-controls">
+  <button id="toggle-view-btn" class="toggle-view-btn" title="Expand Editor" aria-label="Expand editor">
+ <svg class="expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 496" aria-hidden="true">
+  <path fill="#b761c6" d="M496 321c0 97-78 175-175 175H175C78 496 0 418 0 321V175C0 78 78 0 175 0h146c97 0 175 78 175 175v146z"/>
+  <path fill="#aa53bc" d="M0 175C0 78 78 0 175 0h146c97 0 175 78 175 175v146c0 97-78 175-175 175"/>
+  <g fill="#9c44b2">
+ <path d="M321 0c97 0 175 78 175 175v146c0 97-78 175-175 175M189 190h17c7 0 12-6 12-12s-4-12-12-12h-46c-3 0-6 1-8 3s-3 5-3 8v46c0 7 5 12 12 12s12-5 12-12v-18 1l40 40c2 2 5 3 8 3s5-1 8-3c5-5 5-12 0-17l-40-39zm-17 0h1-1z"/>
+ <path d="M335 295c-6 0-12 6-12 12v19-1l-40-40c-5-5-12-5-17 0s-4 12 0 17l40 40h1-18c-7 0-12 5-12 12s5 12 12 12h46c3 0 7-2 8-4 3-2 3-4 3-8v-46c1-8-4-13-11-13zm-12 47s0-1 0 0l1-1v1h-1zm-110-57-40 40v1-19c0-6-5-12-12-12s-12 6-12 12v47c0 3 1 6 3 8s5 3 8 3h46c7 0 12-6 12-12s-5-12-12-12h-18 1l40-40c5-5 5-12 0-17-4-4-12-4-16 1zm-41 57v-1 1h1-1zm103-92c3 0 6-1 8-4l40-40v18c0 6 5 12 12 12s12-6 12-12v-46c0-4-1-7-3-8-2-3-5-4-8-4h-46c-7 0-12 6-12 12s5 12 12 12h18-1l-40 40c-5 5-5 12 0 17 3 2 5 3 8 3zm49-60h-1 1z"/>
+  </g>
+  <path fill="#fff" d="M189 173c0-1 0-1 0 0h17c7 0 12-6 12-12s-4-12-12-12h-46c-3 0-6 1-8 3s-3 5-3 8v46c0 7 5 12 12 12s12-5 12-12v-18 1l40 40c2 2 5 3 8 3s5-1 8-3c5-5 5-12 0-17l-40-39zm-17 0v-1h1l-1 1zm163 105c-6 0-12 5-12 12v18-1l-40-40c-5-5-12-5-17 0s-4 12 0 17l40 40h1-18c-7 0-12 6-12 12s5 12 12 12h46c3 0 7-2 8-3 3-3 3-5 3-8v-47c1-8-4-12-11-12zm-12 46 1-1v1h-1zm-110-57-40 40v1-18c0-7-5-12-12-12s-12 5-12 12v46c0 3 1 6 3 8s5 3 8 3h46c7 0 12-5 12-12s-5-12-12-12h-18 1l40-40c5-5 5-12 0-17-4-4-12-4-16 1zm-41 57v-1 1h1-1zm103-91c3 0 6-1 8-3l40-40v-1 18c0 7 5 12 12 12s12-5 12-12v-46c0-3-1-7-3-8-2-3-5-3-8-3h-46c-7 0-12 5-12 12s5 12 12 12h18-1l-40 40c-5 4-5 12 0 16 3 1 5 3 8 3zm49-61v1-1h-1 1z"/>
+ </svg>
+ <svg class="collapse-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9V4.5M15 9h4.5M15 9l5.25-5.25M15 15v4.5M15 15h4.5M15 15l5.25 5.25" />
+ </svg>
+  </button>
+  <button id="run-code-btn" class="run-btn">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18" aria-hidden="true">
+ <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"></path>
+ </svg>
+ Run Code
+  </button>
+  </div>
+ </div>
+ <textarea id="code-editor-textarea" spellcheck="false" aria-label="Code Editor"></textarea>
+ </div>
+ <div class="preview-pane">
+ <div class="pane-header">
+  <h3>Live Preview</h3>
+ </div>
+ <iframe id="preview-iframe" title="Live code preview" aria-label="Live Code Preview"></iframe>
+ </div>
+ </div>
+ </div>
+  </dialog>
+
+  <script>
+ document.addEventListener('DOMContentLoaded', () => {
+ const htmlElement = document.documentElement;
+
+ // --- Theme Toggling ---
+ const themeToggleButton = document.getElementById('theme-toggle-btn');
+ const prefersDarkMQ = window.matchMedia('(prefers-color-scheme: dark)');
+
+ const applyInitialTheme = () => {
+ const savedTheme = localStorage.getItem('theme');
+ if (savedTheme === 'dark' || (!savedTheme && prefersDarkMQ.matches)) {
+ htmlElement.classList.add('dark');
+ } else {
+ htmlElement.classList.remove('dark');
+ }
+ };
+ applyInitialTheme();
+
+ prefersDarkMQ.addEventListener('change', (e) => {
+ if (!localStorage.getItem('theme')) {
+ if (e.matches) {
+  htmlElement.classList.add('dark');
+ } else {
+  htmlElement.classList.remove('dark');
+ }
+ }
+ });
+
+ themeToggleButton.addEventListener('click', () => {
+ htmlElement.classList.toggle('dark');
+ const isDark = htmlElement.classList.contains('dark');
+ localStorage.setItem('theme', isDark ? 'dark' : 'light');
+ });
+
+ // --- Tab Component Control ---
+ const setupTabComponent = (tabContainer) => {
+ const tablist = tabContainer.querySelector('[role="tablist"]');
+ if (!tablist) return;
+
+ const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+ const switchTab = (newTab) => {
+ if (!newTab || newTab.getAttribute('aria-selected') === 'true') {
+  return; // Do nothing if already active
+ }
+
+ const currentActiveTab = tablist.querySelector('[aria-selected="true"]');
+
+ if (currentActiveTab) {
+  currentActiveTab.classList.remove('active');
+  currentActiveTab.setAttribute('aria-selected', 'false');
+  currentActiveTab.setAttribute('tabindex', '-1');
+  const currentPanelId = currentActiveTab.getAttribute('aria-controls');
+  // By scoping the query to the tabContainer, we ensure component encapsulation.
+  // This prevents conflicts if multiple tab components on the same page
+  // were to accidentally use the same ID for a panel.
+  const currentPanel = tabContainer.querySelector(`#${currentPanelId}`);
+  if (currentPanel) {
+  currentPanel.classList.remove('active');
+  }
+ }
+
+ newTab.classList.add('active');
+ newTab.setAttribute('aria-selected', 'true');
+ newTab.setAttribute('tabindex', '0');
+ const newPanelId = newTab.getAttribute('aria-controls');
+ // Scoping this query is crucial for robust, reusable components.
+ const newPanel = tabContainer.querySelector(`#${newPanelId}`);
+ if (newPanel) {
+  newPanel.classList.add('active');
+ }
+ newTab.focus({ preventScroll: true });
+ };
+
+ tabs.forEach(tab => {
+ tab.addEventListener('click', () => switchTab(tab));
+ });
+
+ // Add keyboard navigation to the tab list.
+ tablist.addEventListener('keydown', (e) => {
+ const currentIndex = tabs.findIndex(tab => tab === document.activeElement);
+ if (currentIndex === -1) return;
+
+ let nextIndex = -1;
+ if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+  e.preventDefault();
+  nextIndex = (currentIndex + 1) % tabs.length;
+ } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+  e.preventDefault();
+  nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+ } else if (e.key === 'Home') {
+  e.preventDefault();
+  nextIndex = 0;
+ } else if (e.key === 'End') {
+  e.preventDefault();
+  nextIndex = tabs.length - 1;
+ }
+ 
+ if (nextIndex !== -1) {
+  switchTab(tabs[nextIndex]);
+ }
+ });
+ };
+
+ // Initialize all tab components on the page.
+ document.querySelectorAll('.tabs-container').forEach(setupTabComponent);
+ 
+ // --- Add Task Form (Best Practice) ---
+ const addTaskForm = document.getElementById('add-task-form-el');
+ if (addTaskForm) {
+ const taskList = document.querySelector('.task-list');
+
+ addTaskForm.addEventListener('submit', (e) => {
+ e.preventDefault();
+ const input = addTaskForm.querySelector('input[type="text"]');
+ const taskText = input ? input.value.trim() : '';
+
+ if (taskText && taskList) {
+  const listItem = document.createElement('li');
+  
+  const label = document.createElement('label');
+  
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  
+  const span = document.createElement('span');
+  span.textContent = taskText;
+
+  label.appendChild(checkbox);
+  label.appendChild(span);
+  listItem.appendChild(label);
+
+  // Prepending the new task makes it appear at the top of the list, which is common for to-do apps.
+  taskList.prepend(listItem);
+
+  input.value = '';
+  input.focus();
+ }
+ });
+ }
+
+ // --- Code Editor & Preview Logic ---
+ const dialog = document.getElementById('code-editor-dialog');
+ const launchBtnSmall = document.getElementById('launch-editor-btn-small');
+ const launchBtnLarge = document.getElementById('launch-editor-btn-large');
+ const closeBtn = document.getElementById('close-dialog-btn');
+ const runBtn = document.getElementById('run-code-btn');
+ const textarea = document.getElementById('code-editor-textarea');
+ const iframe = document.getElementById('preview-iframe');
+ const inlineSnippet = document.getElementById('inline-code-snippet');
+ const toggleViewBtn = document.getElementById('toggle-view-btn');
+ const dialogBody = document.querySelector('.code-dialog-body');
+
+ const exampleCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Live Tab Example</title>
+<style>
+
+body { font-family: sans-serif; padding: 1rem; background-color: #f0f9ff; color: #333; }
+
+/* global tabs and content container*/
+.tabs-container {
+ max-width: 90%; min-height: 50vh; overflow: auto;
+ margin: 1rem auto; border: 0.1rem solid #ddd;
+ border-radius: 0.5rem; background: #f1eeee;
+ box-shadow: 0.5rem 0.7rem 0.5rem rgba(0,0,0,0.1);
+ padding: 0.3rem ;
+}
+
+/* tab pannel container*/
+.tab-group {
+ display: block;
+ background-color: rgba(200,150,150,0.2);
+ padding: 0.7rem 0.5rem 0.2rem 0.5rem;
+ border-radius: 0.5rem ;
+ box-shadow: 0 -0.3rem 0.5rem -0.1rem rgba(0, 0, 0, 0.4) inset;
+}
+
+/* The class for a tab button */
+.tab-label-base {
+ margin: 0.1rem ;
+ cursor: pointer;
+ padding: 0.6rem; /* Consistent padding */
+ background: transparent; font-size: 1.1rem;
+ border-radius: 0.5rem 0.5rem 0.2rem 0.2rem ;
+ border: 0.1rem solid rgba(70, 90, 50, 0.3) ;
+ /* FIX: Removed redundant box-shadow declaration - only the inset shadow is kept */
+ box-shadow: 0 -0.3rem 0.5rem -0.1rem rgba(70, 90, 50, 0.3) inset;
+}
+
+.tab-label-base:hover
+{ background-color: rgba(100,200,200,0.3); }
+
+/* The active tab */
+.tab-label-base.active {
+ color: #1c3a5e;
+ box-shadow: 0rem 0.3rem 0.1rem rgba(50,250,50,0.8);
+ background-color: rgba(250,250,100,0.3);
+ padding: 0.6rem; /* FIX: Consistent padding to prevent Cumulative Layout Shift (CLS) */
+ transition: transform 0.7s ease-in-out;
+ transform: translateY(-0.25rem);
+}
+
+.tab-content { display: none; padding: 1rem; }
+.tab-content.active { display: block; }
+
+</style>
+
+</head>
+<body>
+
+<div class="tabs-container">
+
+<div class="tab-group" role="tablist" aria-label="Example Project Tabs">
+ <button id="ex-tab-1" class="tab-label-base active" role="tab" aria-controls="panel-1" aria-selected="true" tabindex="0">Info</button>
+ <button id="ex-tab-2" class="tab-label-base" role="tab" aria-controls="panel-2" aria-selected="false" tabindex="-1">Details</button>
+ <button id="ex-tab-3" class="tab-label-base" role="tab" aria-controls="panel-3" aria-selected="false" tabindex="-1">Contact</button>
+ <button id="ex-tab-4" class="tab-label-base" role="tab" aria-controls="panel-4" aria-selected="false" tabindex="-1">Fun Files</button>
+</div>
+
+<div class="tab-content-container">
+ <div id="panel-1" class="tab-content active" role="tabpanel" aria-labelledby="ex-tab-1">
+ <h3>Info Panel</h3>
+ <p>This is the first panel. Use arrow keys to navigate tabs.</p>
+ </div>
+ <div id="panel-2" class="tab-content" role="tabpanel" aria-labelledby="ex-tab-2">
+ <h3>Details Panel</h3>
+ <p>This is the second panel, showing more details.</p>
+ </div>
+ <div id="panel-3" class="tab-content" role="tabpanel" aria-labelledby="ex-tab-3">
+ <h3>Contact Panel</h3>
+ <p> Contact information would go here. </p>
+ <div style=" border-radius:0.5rem; 
+background-image: radial-gradient( circle farthest-corner at 32.7% 82.7%, rgba(173,0,171,1) 8.3%, rgba(15,51,92,1) 79.4% ) ;" >
+<p>. . .</p><p>. . .</p><p>. . .</p><p>. . .</p>
+ </div>
+
+</div>
+
+<div id="panel-4" class="tab-content" role="tabpanel" aria-labelledby="ex-tab-4">
+ <h3>Fun Art</h3>
+ Nice geometric CSS pattern.
+ 
+<div style=" width:80%;height:50%;border-radius:0.5rem;
+
+background-image: radial-gradient(99% 33% at 20% 99%, #7B00FFee 33%, #073A55ee 80% ),
+
+repeating-radial-gradient(33% 66% at 33% 66%, #7B00FFFF 33%, #073AFF00 66%) ;" >
+<p>. . . . . . .</p><p>. . . . . . .</p>
+<p>. . . . . . .</p><p>. . . . . . .</p>
+<p>....♫♪.ılılıll|̲̅̅●̲̅̅|̲̅̅=̲̅̅|̲̅̅●̲̅̅|llılılı.♫♪.....</p>
+
+</div>
+
+ </div>
+</div>
+
+</div>
+
+<script>
+
+// JS code makes a virtual array of all tabs in the HTML
+// and manages their state and navigation.
+
+// set up a tab components.
+const setupTabComponent = (tabContainer) => {
+ if (!tabContainer) return;
+
+ const tablist = tabContainer.querySelector('[role="tablist"]');
+ if (!tablist) return;
+
+ const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+ // switching between tabs.
+ const switchTab = (newTab) => {
+ if (!newTab || newTab.getAttribute('aria-selected') === 'true') {
+ return;
+ }
+
+ const currentActiveTab = tablist.querySelector('[aria-selected="true"]');
+
+ if (currentActiveTab) {
+ currentActiveTab.classList.remove('active');
+ currentActiveTab.setAttribute('aria-selected', 'false');
+ currentActiveTab.setAttribute('tabindex', '-1');
+
+ // Panel Selection within 'tabContainer'.
+ const currentPanelId = currentActiveTab.getAttribute('aria-controls');
+ const currentPanel = tabContainer.querySelector('#' + currentPanelId);
+ if (currentPanel) {
+ currentPanel.classList.remove('active');
+ }
+ }
+
+ // Activate the new tab and its associated panel.
+ newTab.classList.add('active');
+ newTab.setAttribute('aria-selected', 'true');
+ newTab.setAttribute('tabindex', '0');
+
+ // Scoped Panel Selection
+ const newPanelId = newTab.getAttribute('aria-controls');
+ const newPanel = tabContainer.querySelector('#' + newPanelId);
+ if (newPanel) {
+ newPanel.classList.add('active');
+ }
+
+ // Set focus on tab.
+ newTab.focus({ preventScroll: true });
+ };
+
+ // Event listener for mouse navigation.
+ tabs.forEach(tab => {
+ tab.addEventListener('click', () => switchTab(tab));
+ });
+
+ // Listener for keyboard navigation.
+ tablist.addEventListener('keydown', (e) => {
+ const currentIndex = tabs.findIndex(tab => tab === document.activeElement);
+ if (currentIndex === -1) return;
+
+ let nextIndex = -1;
+ // Right and Down arrows move to the next tab (and wrap around).
+ if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+ e.preventDefault();
+ nextIndex = (currentIndex + 1) % tabs.length;
+ // Left and Up arrows move to the previous tab (and wrap around).
+ } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+ e.preventDefault();
+ nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+ // Home key moves to the first tab.
+ } else if (e.key === 'Home') {
+ e.preventDefault();
+ nextIndex = 0;
+ // End key moves to the last tab.
+ } else if (e.key === 'End') {
+ e.preventDefault();
+ nextIndex = tabs.length - 1;
+ }
+
+ // If key pressed, switch to the calculated tab.
+ if (nextIndex !== -1) {
+ switchTab(tabs[nextIndex]);
+ }
+ });
+};
+
+// Initialize all tab components when the DOM is ready.
+document.addEventListener('DOMContentLoaded', () => {
+ document.querySelectorAll('.tabs-container').forEach(setupTabComponent);
+});
+<\/script>
+
+</body>
+</html>
+`;
+
+ // Populate inline snippet
+ if (inlineSnippet) {
+ inlineSnippet.value = exampleCode.trim();
+ }
+ 
+ // Handle dialog logic
+ if (dialog && closeBtn && runBtn && textarea && iframe && dialogBody && toggleViewBtn) {
+ const updatePreview = () => {
+ const code = textarea.value;
+ iframe.srcdoc = code;
+ };
+
+ const expandEditor = () => {
+ dialogBody.classList.add('editor-expanded');
+ toggleViewBtn.setAttribute('aria-label', 'Collapse editor');
+ toggleViewBtn.setAttribute('title', 'Collapse Editor');
+ };
+
+ const collapseEditor = () => {
+ dialogBody.classList.remove('editor-expanded');
+ toggleViewBtn.setAttribute('aria-label', 'Expand editor');
+ toggleViewBtn.setAttribute('title', 'Expand Editor');
+ };
+
+ const toggleEditorView = () => {
+ dialogBody.classList.contains('editor-expanded') ? collapseEditor() : expandEditor();
+ };
+
+ const openDialog = () => {
+ // Prevent layout shift by compensating for scrollbar
+ const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+ document.body.style.paddingRight = `${scrollbarWidth}px`;
+ document.body.style.overflow = 'hidden';
+ 
+ textarea.value = exampleCode.trim();
+ dialog.showModal();
+ collapseEditor(); // Ensure dialog opens in default state
+ updatePreview();
+ // Animation duration is 0.3s. Wait slightly longer to ensure focus is set after animation.
+ setTimeout(() => textarea.focus(), 350);
+ };
+
+ const closeDialog = () => {
+ dialog.close();
+ };
+
+ dialog.addEventListener('close', () => {
+ // Restore body scrolling and remove padding
+ document.body.style.overflow = '';
+ document.body.style.paddingRight = '';
+ });
+
+ if (launchBtnSmall) launchBtnSmall.addEventListener('click', openDialog);
+ if (launchBtnLarge) launchBtnLarge.addEventListener('click', openDialog);
+ closeBtn.addEventListener('click', closeDialog);
+ runBtn.addEventListener('click', updatePreview);
+ toggleViewBtn.addEventListener('click', toggleEditorView);
+ }
+ });
+</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4474517920379816" crossorigin="anonymous"></script>
+</body>
+</html>
