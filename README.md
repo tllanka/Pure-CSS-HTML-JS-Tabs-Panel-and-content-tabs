@@ -24,10 +24,10 @@ need to layer with tabs that are scroll sticky or nested within other content.
   
 <a href="https://dorson.github.io/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/">
     
-<h1> LIVE DEMO of the TAbs</h1>
+## LIVE DEMO of the TAbs
     
-  <img src="https://img.shields.io/badge/Live-Demo-brightgreen" alt="Live Demo">
-  <p><i>https://dorson.github.io/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/</i></p>
+https://dorson.github.io/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/
+. . . . . . .
 </a>
   
 </p>
