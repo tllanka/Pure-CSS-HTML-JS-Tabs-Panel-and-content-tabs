@@ -64,7 +64,7 @@ A modern, standalone implementation of accessible, JavaScript-driven tabs. This 
 The core mechanism is simple and effective:
 
 1.  A JavaScript function, `setupTabComponent`, is initialized for each `.tabs-container` element.
-2.  It listens for `click` and `keydown` events on the tab list to manage tab selection.
+2.  It uses **event delegation**, listening for `click` and `keydown` events on the tab list to manage tab selection efficiently.
 3.  When a tab is activated, the script:
     -   Toggles an `.active` class for CSS styling.
     -   Updates `aria-selected` to inform assistive technologies.
@@ -114,11 +114,107 @@ Copy the necessary CSS from the `<style>` tag in `index.html`:
 
 ### 3. JavaScript Logic
 
-Copy the `setupTabComponent` function from the `<script>` tag in `index.html` into your project's JavaScript file. Then, initialize it by adding the following line. Ensure your script runs after the DOM has fully loaded.
+Copy the code below into your project's JavaScript file. It defines the `setupTabComponent` function and initializes it on all `.tabs-container` elements when the page loads. This script handles all click and keyboard events using an efficient event delegation pattern that fully supports nested tabs.
 
 ```javascript
-// Initialize all tab components on the page
 document.addEventListener('DOMContentLoaded', () => {
+    /**
+     * Initializes a single tab component.
+     * @param {HTMLElement} tabContainer - The .tabs-container element.
+     */
+    const setupTabComponent = (tabContainer) => {
+        const tablist = tabContainer.querySelector('[role="tablist"]');
+        if (!tablist) return;
+
+        const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+        const switchTab = (newTab) => {
+            if (!newTab || newTab.getAttribute('aria-selected') === 'true') {
+                return; // Do nothing if already active
+            }
+
+            const currentActiveTab = tablist.querySelector('[aria-selected="true"]');
+
+            if (currentActiveTab) {
+                currentActiveTab.classList.remove('active');
+                currentActiveTab.setAttribute('aria-selected', 'false');
+                currentActiveTab.setAttribute('tabindex', '-1');
+                const currentPanelId = currentActiveTab.getAttribute('aria-controls');
+                // By scoping the query to the tabContainer, we ensure component encapsulation.
+                const currentPanel = tabContainer.querySelector(`#${currentPanelId}`);
+                if (currentPanel) {
+                    currentPanel.classList.remove('active');
+                }
+            }
+
+            newTab.classList.add('active');
+            newTab.setAttribute('aria-selected', 'true');
+            newTab.setAttribute('tabindex', '0');
+            const newPanelId = newTab.getAttribute('aria-controls');
+            // Scoping this query is crucial for robust, reusable components.
+            const newPanel = tabContainer.querySelector(`#${newPanelId}`);
+            if (newPanel) {
+                newPanel.classList.add('active');
+            }
+            newTab.focus({ preventScroll: true });
+        };
+
+        // Use event delegation for click handling.
+        tablist.addEventListener('click', (e) => {
+            const tab = e.target.closest('[role="tab"]');
+            
+            // Ensure the clicked element is a tab and belongs to this specific tablist.
+            if (tab && tab.closest('[role="tablist"]') === tablist) {
+                switchTab(tab);
+            }
+        });
+
+        // Add keyboard navigation to the tab list.
+        tablist.addEventListener('keydown', (e) => {
+            const tab = e.target.closest('[role="tab"]');
+
+            // Ensure the event is from a tab within this component
+            if (!tab || tab.closest('[role="tablist"]') !== tablist) {
+                return;
+            }
+
+            const currentIndex = tabs.indexOf(tab);
+            if (currentIndex === -1) return;
+
+            let nextIndex = -1;
+
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                // If not the last tab, move to the next one.
+                // Otherwise, do nothing, allowing the event to bubble up to a parent tablist.
+                if (currentIndex < tabs.length - 1) {
+                    nextIndex = currentIndex + 1;
+                }
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                // If not the first tab, move to the previous one.
+                // Otherwise, do nothing, allowing the event to bubble up.
+                if (currentIndex > 0) {
+                    nextIndex = currentIndex - 1;
+                }
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                nextIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                nextIndex = tabs.length - 1;
+            }
+            
+            if (nextIndex !== -1) {
+                // Stop propagation only if we are handling the navigation internally.
+                // This allows arrow keys to "escape" a nested tab component.
+                e.stopPropagation();
+                switchTab(tabs[nextIndex]);
+            }
+        });
+    };
+
+    // Initialize all tab components on the page.
     document.querySelectorAll('.tabs-container').forEach(setupTabComponent);
 });
 ```
@@ -130,9 +226,10 @@ Accessibility is a cornerstone of this project. The implementation strictly foll
 -   **Roles:** Correctly uses `role="tablist"`, `role="tab"`, and `role="tabpanel"`.
 -   **ARIA Attributes:** Manages `aria-controls`, `aria-selected`, and `aria-labelledby` to create a clear relationship between tabs and panels.
 -   **Keyboard Navigation:**
-    -   `ArrowRight`/`ArrowLeft`: Navigate between tabs.
+    -   `ArrowRight`/`ArrowLeft`: Move between tabs. Navigation stops at the ends to allow "escaping" nested tab panels.
     -   `Home`: Go to the first tab.
     -   `End`: Go to the last tab.
+    -   `ArrowUp`/`ArrowDown`: Not handled, to allow for normal page scrolling.
 -   **Focus Management:** The active tab is always focusable (`tabindex="0"`), while inactive tabs are removed from the tab order (`tabindex="-1"`), a technique known as roving tabindex.
 
 ## 🤝 Contributing
